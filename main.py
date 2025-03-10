@@ -40,7 +40,6 @@ def NW_align (s1, s2, d):
 # For debugging purposes
     for i in m:
         print(i)
-    # TODO Set up backtracking and return alignment
     
     s1_temp = s1  
     s2_temp = s2 
@@ -80,21 +79,15 @@ def NW_align (s1, s2, d):
             s2_align = s2_temp + s2_align
             break
 
-
-        
-
-        
-    print()
     return s2_align + " " + s1_align + " " + str(align_score)
 
+def test():
+    s1 = 'attc'
+    s2 = 'agttcg'
+    print(NW_align(s1,s2,-2))
 
-s1 = 'attc'
-s2 = 'agttcg'
-print(NW_align(s1,s2,-2))
-# test = init_matrix(len(s2),len(s1),-2)
+def main():
+    # TODO Implement csv file data extraction and test in moodle
+    return
 
-# print(s1)
-# s2 = " " + s2
-# for i in range(len(test)):
-#     print(s2[i], test[i])
     
