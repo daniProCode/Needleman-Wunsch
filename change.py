@@ -1,5 +1,6 @@
 import csv
 import sys
+
 #Intialize matrix given rows, columns, and penalty number
 def init_matrix(r, c, d): 
     m = [[0 for i in range(r+1)] for j in range(c+1)]
@@ -31,7 +32,7 @@ def NW_align (s1, s2, d):
         for j in range(1,c+1):
             # Evaluate for up, left, and diagonal and set current cell's value to the maximum 
             # value between the three
-            n1 = m[i-1][j-1] + is_match(s1[i-1], s2[j-1])   # Diagonal
+            n1 = m[i-1][j-1] + is_match(s1[i-1], s2[j-1])   # Diagonal, calls is_match function to determine what should be added
             n2 = m[i-1][j] + d                              # Up
             n3 = m[i][j-1] + d                              # Left
 
@@ -40,8 +41,8 @@ def NW_align (s1, s2, d):
     curr_c = j          # Current Column
     align_score = m[i][j]
 # For debugging purposes
-    # for i in m:
-    #     print(i)
+    for i in m:
+        print(i)
     
     s1_temp = s1  
     s2_temp = s2 
@@ -87,7 +88,7 @@ def NW_align (s1, s2, d):
             s1_align = s1_temp + s1_align
             s2_align = s2_temp + s2_align
             break
-
+    
     # If one of the alignments is longer than the other, gaps should be added
     if len(s2_align) - len(s1_align) != 0:
         # If s1_align is shorter than s2_align, gaps are added at the start of s1
@@ -100,32 +101,22 @@ def NW_align (s1, s2, d):
             for i in range(len(s1_align) - len(s2_align)):
                 s2_align = '-' + s2_align
 
-    # Returns string with both alignments and the alignment score
-    return s1_align + " " + s2_align + " " + str(align_score)
+    #Returns string with both alignments and the alignment score
+    return s2_align + " " + s1_align + " " + str(align_score)
 
 def main():
-    # Reads command line and identifies second argument as filename
-    if len(sys.argv) > 1:
-        filename = sys.argv[1]
-        try: 
-            # Open file
-            with open(filename, newline='', encoding='utf-8-sig') as csvfile:
-                reader = csv.reader(csvfile)
-                i = 0
-                # Iterate through lines and sequences
-                for row in reader:
-                    if i>0:
-                        sequences = [] # Current sequences
-                        for el in row:
-                            sequences.append(el)
-                        
-                        # Print alignments
-                        print (NW_align(sequences[0], sequences[1], -2))
-                    i+=1
-            
-                    
-        except FileNotFoundError:
-            sys.exit(1)
+    
+    with open('Book1.csv', newline='', encoding='utf-8-sig') as csvfile:
+        reader = csv.reader(csvfile)
+
+        for row in reader:
+            sequences = []
+            for el in row:
+                sequences.append(el)
+            print (NW_align(sequences[0], sequences[1], -2))
+
+    
+
+    
 
 main()
-    
